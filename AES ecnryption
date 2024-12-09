@@ -1,0 +1,18 @@
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
+# Predefined 16-byte AES key and data to encrypt
+aes_key = b"thisisakey123456"  # Must be exactly 16 bytes
+data = b"This is a secret!"   # Example data to encrypt
+
+# Encrypt the data
+cipher = AES.new(aes_key, AES.MODE_ECB)
+encrypted = cipher.encrypt(pad(data, AES.block_size))  # Proper padding
+
+# Decrypt the data
+decrypted = unpad(cipher.decrypt(encrypted), AES.block_size)  # Remove padding
+
+# Print results
+print("Original data:", data.decode())
+print("Encrypted:", encrypted.hex())
+print("Decrypted:", decrypted.decode())
