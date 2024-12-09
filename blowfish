@@ -1,0 +1,19 @@
+from Crypto.Cipher import Blowfish
+from Crypto.Util.Padding import pad, unpad
+
+# Predefined Blowfish key and data to encrypt
+blowfish_key = b"y123456"  # Key can be between 4 and 56 bytes, this is 16 bytes
+data = b"NSC LAB EXPO"        # Example data to encrypt
+
+# Encrypt the data
+cipher = Blowfish.new(blowfish_key, Blowfish.MODE_CBC)
+encrypted = cipher.encrypt(pad(data, Blowfish.block_size))  # Proper padding
+
+# Decrypt the data
+decipher = Blowfish.new(blowfish_key, Blowfish.MODE_CBC, iv=cipher.iv)
+decrypted = unpad(decipher.decrypt(encrypted), Blowfish.block_size)  # Remove padding
+
+# Print results
+print("Original data:", data.decode())
+print("Encrypted:", encrypted.hex())
+print("Decrypted:", decrypted.decode())
